@@ -1,0 +1,70 @@
+---
+// Decorative ComfyUI-style graph for the hero. Edit the nodes array to change it.
+const nodes = [
+  { title: 'Load Video', detail: 'reference.mp4', align: 'start', port: 'accent' },
+  { title: 'Pose Estimate', detail: 'joints → motion', align: 'center', port: 'blue' },
+  { title: 'Retarget to Rig', detail: 'any humanoid skeleton', align: 'end', port: 'accent', active: true },
+  { title: 'Export Animation', detail: 'FBX · USD · glTF', align: 'end' },
+];
+---
+<div
+  class="graph"
+  role="img"
+  aria-label="Illustration of a node-based workflow: load video, pose estimation, retarget to rig, export animation"
+>
+  {nodes.map((n, i) => (
+    <>
+      {i > 0 && <div class={`wire wire-${nodes[i - 1].align} ${nodes[i - 1].port === 'blue' ? 'wire-blue' : ''}`}></div>}
+      <div class={`node node-${n.align} ${n.active ? 'node-active' : ''}`}>
+        <div class="node-head">{n.title}</div>
+        <div class="node-body">
+          <span>{n.detail}</span>
+          {n.port && <span class={`port port-${n.port}`}></span>}
+        </div>
+      </div>
+    </>
+  ))}
+</div>
+
+<style>
+  .graph {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background-color: var(--bg-raised);
+    background-image: radial-gradient(#2A2E36 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex; flex-direction: column;
+  }
+  .node {
+    width: 230px; max-width: 100%;
+    border: 1px solid #343944; border-radius: 10px;
+    background: var(--node); overflow: hidden;
+  }
+  .node-start { align-self: flex-start; }
+  .node-center { align-self: center; }
+  .node-end { align-self: flex-end; }
+  .node-active { border-color: var(--accent); }
+  .node-head { padding: 8px 12px; background: var(--node-head); font-family: var(--font-mono); font-size: 12px; }
+  .node-body {
+    padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--text-muted);
+  }
+  .port { width: 10px; height: 10px; border-radius: 999px; flex: none; }
+  .port-accent { background: var(--accent); }
+  .port-blue { background: var(--wire-2); }
+
+  .wire { width: 2px; height: 28px; background: var(--accent); }
+  .wire-blue { background: var(--wire-2); }
+  /* each wire leaves from the middle of the node above it */
+  .wire-start { align-self: flex-start; margin-left: 114px; }
+  .wire-center { align-self: center; }
+  .wire-end { align-self: flex-end; margin-right: 114px; }
+
+  @media (max-width: 640px) {
+    .graph { padding: 20px; }
+    .node { width: 200px; }
+    .wire-start { margin-left: 99px; }
+    .wire-end { margin-right: 99px; }
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  studio: string;
+  summary: string;
+  tags: string[];
+  image?: string;
+  imageAlt?: string;
+  placeholder?: string;
+  highlight?: boolean;
+}
+const { href, title, studio, summary, tags, image, imageAlt = '', placeholder, highlight } = Astro.props;
+---
+<a href={href} class:list={['card', { highlight }]}>
+  <div class="thumb">
+    {image ? <img src={image} alt={imageAlt} loading="lazy" /> : <div class="placeholder fill">[{placeholder}]</div>}
+  </div>
+  <div class="body">
+    <span class="studio">{studio}</span>
+    <h3>{title}</h3>
+    <p>{summary}</p>
+    <div class="tags">{tags.map((t) => <span class="tag">{t}</span>)}</div>
+  </div>
+</a>
+
+<style>
+  .card {
+    flex: 1 1 360px; min-width: 0;
+    display: flex; flex-direction: column;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); overflow: hidden; color: var(--text);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); color: var(--text); }
+  .highlight { border-color: var(--accent); }
+  .highlight .studio { color: var(--accent); }
+
+  .thumb { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .fill { width: 100%; height: 100%; }
+
+  .body { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .studio { font-size: 13px; color: var(--text-muted); }
+  p { margin: 0; font-size: 15px; color: var(--text-muted); }
+  .tags { padding-top: 6px; }
+</style>

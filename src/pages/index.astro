@@ -1,0 +1,206 @@
+---
+import Base from '../layouts/Base.astro';
+import NodeGraph from '../components/NodeGraph.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../site';
+import { projects } from '../lib/projects';
+---
+<Base>
+  <!-- HERO -->
+  <section class="container hero">
+    <div class="hero-copy">
+      <div class="hero-meta">
+        <span class="eyebrow">{site.role}</span>
+        {site.available && (
+          <span class="status"><span class="dot"></span>Open to new roles · {site.location}</span>
+        )}
+      </div>
+      <h1>I build the tools that turn new technology into art.</h1>
+      <p class="lede">
+        Generative AI workflows, animation tools and production pipelines. Previously Pipeline TD at
+        <strong>DreamWorks Animation</strong> on Kung Fu Panda 4 and Trolls Band Together, then Software
+        Engineer at <strong>Uthana</strong>, building custom ComfyUI nodes and 3D animation tools.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#reel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+          Watch the reel
+        </a>
+        <a class="btn" href="#work">
+          See selected work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <NodeGraph />
+    </div>
+  </section>
+
+  <!-- REEL -->
+  <section id="reel" class="container reel">
+    {site.reelEmbed ? (
+      <div class="video">
+        <iframe
+          src={site.reelEmbed}
+          title={site.reelTitle}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+    ) : (
+      <div class="video video-empty">
+        <span class="play" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg>
+        </span>
+        <span class="mono muted">[Add your reel's embed link in src/site.ts]</span>
+      </div>
+    )}
+    <p class="reel-caption muted"><strong>{site.reelTitle}</strong> · {site.reelCaption}</p>
+  </section>
+
+  <!-- CREDITS -->
+  <section class="band">
+    <div class="container credits">
+      <span class="eyebrow faint">Production credits</span>
+      {site.credits.map((c) => (
+        <div class="credit">
+          <span class="credit-title">{c.title}</span>
+          <span class="muted small">{c.detail}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section id="work" class="container work">
+    <div class="section-head">
+      <span class="eyebrow">Selected work</span>
+      <h2>Tools artists actually use</h2>
+    </div>
+    <div class="grid">
+      {projects.map((p) => (
+        <ProjectCard
+          href={`/work/${p.slug}/`}
+          title={p.title}
+          studio={p.studio}
+          summary={p.summary}
+          tags={p.tags}
+          image={p.image}
+          imageAlt={p.imageAlt}
+          placeholder={p.placeholder}
+          highlight={p.highlight}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="band">
+    <div class="container caps">
+      <div class="cap">
+        <span class="mono accent">01</span>
+        <h3>Generative AI workflows</h3>
+        <p class="muted">ComfyUI custom nodes and graph templates, model integration, and ML dataset pipelines for motion data.</p>
+      </div>
+      <div class="cap">
+        <span class="mono accent">02</span>
+        <h3>Pipeline and tools</h3>
+        <p class="muted">Python and PyQt tooling, USD workflows, show-wide releases, and debugging shots across lighting, FX and comp.</p>
+      </div>
+      <div class="cap">
+        <span class="mono accent">03</span>
+        <h3>Graphics and 3D art</h3>
+        <p class="muted">Shaders, simulation and rendering in C++ and WebGL, plus modeling, shading and lighting in Maya, Houdini and Blender.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="container about">
+    <!-- Replace the placeholder with: <img src="/images/gina.jpg" alt="Gina Condotti" class="photo" /> -->
+    <div class="photo placeholder">[Your photo]</div>
+    <div class="about-copy">
+      <span class="eyebrow">About</span>
+      <h2>An engineer who still makes the art.</h2>
+      <p class="muted">
+        I studied Computer Science at UC Berkeley, where I also taught a course on making 3D animated
+        shorts, covering every stage of the pipeline. Since then I've built lighting tools at DreamWorks
+        Animation and generative AI and animation tools at Uthana.
+      </p>
+      <p class="muted">
+        I'm happiest working right next to artists: finding where a workflow slows them down, then
+        building something that makes the problem go away. Outside work, I model and shade for Studio
+        Moles, an indie animation studio.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .mono { font-family: var(--font-mono); font-size: 13px; }
+  .accent { color: var(--accent); }
+  .faint { color: var(--text-faint); }
+  .small { font-size: 14px; }
+  strong { color: var(--text); font-weight: 500; }
+
+  /* hero */
+  .hero { padding-block: 96px 80px; display: flex; flex-wrap: wrap; gap: 64px; align-items: center; }
+  .hero-copy { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+  .hero-visual { flex: 1 1 380px; min-width: 0; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .status {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-muted);
+    padding: 4px 12px; border: 1px solid #2C3038; border-radius: 999px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--ok); }
+  .lede { margin: 0; font-size: 19px; color: var(--text-muted); max-width: 620px; }
+  .hero .btn-row { padding-top: 8px; }
+
+  /* reel */
+  .reel { padding-block: 40px 96px; }
+  .video { aspect-ratio: 16 / 9; width: 100%; border-radius: 16px; overflow: hidden; background: var(--surface); }
+  .video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .video-empty {
+    border: 1px dashed var(--border-strong);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 16px;
+  }
+  .play {
+    width: 84px; height: 84px; border-radius: 999px; background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .reel-caption { margin: 16px 0 0; font-size: 15px; }
+
+  /* credits */
+  .credits { padding-block: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px 56px; }
+  .credit { display: flex; flex-direction: column; }
+  .credit-title { font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+
+  /* work */
+  .work { padding-block: 112px 96px; display: flex; flex-direction: column; gap: 48px; }
+  .section-head { display: flex; flex-direction: column; gap: 12px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 28px; }
+
+  /* capabilities */
+  .caps { padding-block: 88px; display: flex; flex-wrap: wrap; gap: 48px; }
+  .cap { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .cap h3 { font-size: 24px; }
+  .cap p { margin: 0; font-size: 15px; }
+
+  /* about */
+  .about { padding-block: 112px; display: flex; flex-wrap: wrap; gap: 64px; align-items: center; }
+  .photo {
+    flex: 1 1 320px; max-width: 420px; aspect-ratio: 4 / 5;
+    border-radius: 16px; border: 1px dashed var(--border-strong); object-fit: cover;
+  }
+  .about-copy { flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .about-copy h2 { font-size: clamp(30px, 3.6vw, 40px); line-height: 1.15; }
+  .about-copy p { margin: 0; font-size: 17px; }
+
+  @media (max-width: 640px) {
+    .hero { padding-block: 56px 48px; gap: 40px; }
+    .work, .about { padding-block: 72px; }
+  }
+</style>

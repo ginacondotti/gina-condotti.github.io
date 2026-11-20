@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import { projects } from '../../lib/projects';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const { Content } = project;
+---
+<Base title={`${project.title} | Gina Condotti`} description={project.summary}>
+  <article class="container case">
+    <a href="/#work" class="back">← All work</a>
+
+    <header class="head">
+      <span class="eyebrow">{project.studio}</span>
+      <h1>{project.title}</h1>
+      <p class="summary">{project.summary}</p>
+      <div class="tags">{project.tags.map((t) => <span class="tag">{t}</span>)}</div>
+    </header>
+
+    <div class="hero-media">
+      {project.image
+        ? <img src={project.image} alt={project.imageAlt} />
+        : <div class="placeholder fill">[{project.placeholder}]</div>}
+    </div>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {next && next.slug !== project.slug && (
+      <a href={`/work/${next.slug}/`} class="next">
+        <span class="eyebrow">Next project</span>
+        <span class="next-title">{next.title} →</span>
+      </a>
+    )}
+  </article>
+</Base>
+
+<style>
+  .case { padding-block: 56px 112px; display: flex; flex-direction: column; gap: 40px; }
+  .back { color: var(--text-muted); font-size: 15px; }
+  .head { display: flex; flex-direction: column; gap: 18px; max-width: 860px; }
+  .head h1 { font-size: clamp(36px, 5vw, 56px); }
+  .summary { margin: 0; font-size: 19px; color: var(--text-muted); }
+  .hero-media {
+    aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--surface-2);
+  }
+  .hero-media img { width: 100%; height: 100%; object-fit: cover; }
+  .fill { width: 100%; height: 100%; }
+  .next {
+    margin-top: 32px; padding-top: 40px; border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .next-title { font-family: var(--font-display); font-size: clamp(26px, 3vw, 36px); font-weight: 600; }
+</style>
