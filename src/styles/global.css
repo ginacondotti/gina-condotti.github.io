@@ -1,6 +1,6 @@
 /* ---------- Design tokens: change these to restyle the whole site ---------- */
 :root {
-  --accent: #F5A524;        /* try #5EEAD4, #A78BFA or #F472B6 */
+  --accent: #c4aef4;        /* try #5EEAD4, #A78BFA or #F472B6 */
   --accent-ink: #121212;    /* text on accent buttons */
   --bg: #0E0F12;
   --bg-raised: #121419;

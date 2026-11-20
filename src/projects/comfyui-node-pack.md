@@ -6,7 +6,7 @@ tags: [LoRA, IP-Adapter, GitHub]
 order: 5
 highlight: true
 # Set draft: true to hide this card until the project is ready.
-draft: false
+draft: true
 placeholder: "Before/after: character consistency across shots"
 ---
 

@@ -15,6 +15,7 @@ export const site = {
   reelEmbed: '',
   reelTitle: 'Demo Reel 2026',
   reelCaption: 'tools, pipeline and generative AI work',
+  logo: '/images/logo.png',
 
   credits: [
     { title: 'Kung Fu Panda 4', detail: 'DreamWorks Animation · Pipeline TD' },
