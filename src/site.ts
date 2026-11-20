@@ -9,6 +9,11 @@ export const site = {
   github: '', // e.g. 'https://github.com/your-username' (button hides while empty)
   resume: '/resume.pdf', // put your PDF at public/resume.pdf
 
+  // Small logo shown next to your name in the top bar. Put the image in
+  // public/images/ and set e.g. '/images/logo.png' (leave '' to hide it).
+  // A square image works best; it's shown at 32x32.
+  logo: '',
+
   // Paste your reel's EMBED url (not the normal page url), e.g.
   //   Vimeo:   'https://player.vimeo.com/video/123456789'
   //   YouTube: 'https://www.youtube.com/embed/VIDEO_ID'
